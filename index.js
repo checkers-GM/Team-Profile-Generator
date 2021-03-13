@@ -4,12 +4,68 @@ const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+const { create } = require("domain");
 
 let employeeArray = [];
-
+let idArray = [];
 // Prompt for user to enter Basic Employee information
 
+function runInquirerManager() {
+  inquirer.prompt = [
+    {
+      type: "input",
+      message: "Please enter your managers office number?",
+      name: "managerName",
+    },
+    {
+      type: "input",
+      message: "Please enter your managers ID?",
+      name: "managerId",
+    },
+    {
+      type: "input",
+      message: "Please enter your managers email?",
+      name: "managerEmail",
+    },
+    {
+      type: "input",
+      message: "Please enter your managers office number?",
+      name: "officeID",
+    },
+  ].then((answers) => {
+    const managerData = new Manager(
+      answers.managerName,
+      answers.managerId,
+      answers.managerEmail,
+      answers.officeID
+    );
+    employeeArray.push(managerData);
+    idArray.push(managerId);
+    runInquirerEmployee();
+  });
+}
+
 function runInquirerEmployee() {
+  inquirer.prompt = [
+    {
+      type: "list",
+      message: "Please choose the team memeber you would like too add",
+      choices: ["Engineer", "Intern", "I'm done."],
+      name: "title",
+    },
+  ].then((answers) => {
+    switch (answers.title) {
+      case "Engineer":
+        runInqurierEngineer();
+        break;
+      case "Intern":
+        runInquirerIntern();
+        break;
+      default:
+        createTeam();
+    }
+  });
+
   const inquirerPromps = [
     {
       type: "input",
@@ -32,17 +88,6 @@ function runInquirerEmployee() {
 }
 
 // Inquirer Prompts for Manager
-
-function runInquirerManager() {
-  const promptArray = [
-    {
-      type: "input",
-      message: "Please enter your office number?",
-      name: "officeID",
-    },
-  ];
-  return inquirer.prompt(promptArray);
-}
 
 function runInquirerEngineer() {
   const promptArray = [
