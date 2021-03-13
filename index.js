@@ -100,6 +100,7 @@ async function runApplication() {
     });
     const result = await promise;
     console.log(result);
+    createCard(employeeArray);
   }
 
   let html = `<!DOCTYPE html>
@@ -123,14 +124,11 @@ async function runApplication() {
           <div class="team col-12 justify-content-center">
             <div class="card employee-card">
               <div class="card-header">
-                <h2 class="card-title">Bob</h2>
-                <h3 class="card-title">Manager</h3>
               </div>
               <div class="card-body">
                 <ul class="list-items">
                   <li class="list-group-item">ID: 1</li>
                   <li class="list-group-item">
-                    Email: <a href="mailto:bob@office.com">bob@office.com</a>
                   </li>
                   <li class="list-group-item">Office Number: 5</li>
                 </ul>
@@ -139,14 +137,11 @@ async function runApplication() {
             <div class="card employee-card">
               <div class="card-header">
                 <h2 class="card-title"></h2>
-                <h2 class="card-title">Sam</h2>
-                <h3 class="card-title">Engineer</h3>
               </div>
               <div class="card-body">
                 <ul class="list-items">
                   <li class="list-group-item">ID: 1</li>
                   <li class="list-group-item">
-                    Email: <a href="mailto:bob@office.com">Sam@office.com</a>
                   </li>
                   <li class="list-group-item">GitHub: 5</li>
                 </ul>
@@ -154,16 +149,12 @@ async function runApplication() {
               <div class="card employee-card">
                   <div class="card-header">
                     <h2 class="card-title"></h2>
-                    <h2 class="card-title">Fred</h2>
-                    <h3 class="card-title">Intern</h3>
                   </div>
                   <div class="card-body">
                     <ul class="list-items">
                       <li class="list-group-item">ID: 1</li>
                       <li class="list-group-item">
-                        Email: <a href="mailto:bob@office.com">Intern@office.com</a>
                       </li>
-                      <li class="list-group-item">University of Toronto</li>
                     </ul>
                   </div>
             </div>
@@ -175,6 +166,74 @@ async function runApplication() {
     `;
 }
 
-runApplication();
+// Function to take inquirer input and generator content
 
-// Function to take inquirer input a generator content
+function createCard(Employee) {
+  return new Promise(function (resolve, reject) {
+    const name = Employee.getName();
+    const role = Employee.getRole();
+    const id = Employee.getId();
+    const email = Employee.getEmail();
+    let userHtml = "";
+    if (role === "Manager") {
+      const officeNumber = Employee.getOfficeNumber();
+      userHtml = `<div class="card employee-card">
+      <div class="card-header">
+        <h2 class="card-title">Bob</h2>
+        <h3 class="card-title">Manager</h3>
+      </div>
+      <div class="card-body">
+        <ul class="list-items">
+          <li class="list-group-item">ID:${id}</li>
+          <li class="list-group-item">
+            Email: <a href="${email}</a>
+          </li>
+          <li class="list-group-item">Office Number:${officeNumber}</li>
+        </ul>
+      </div>
+    </div>`;
+    } else if (role === "Intern") {
+      const school = Employee.getSchool();
+      userHtml = `div class="card employee-card">
+    <div class="card-header">
+      <h2 class="card-title">Bob</h2>
+      <h3 class="card-title">Manager</h3>
+    </div>
+    <div class="card-body">
+      <ul class="list-items">
+        <li class="list-group-item">ID:${id}</li>
+        <li class="list-group-item">
+          Email: <a href="${email}</a>
+        </li>
+        <li class="list-group-item">Office Number:${school}</li>
+      </ul>
+    </div>
+  </div>`;
+    } else {
+      const gitHub = Employee.getGithub();
+      userHtml = `div class="card employee-card">
+      <div class="card-header">
+        <h2 class="card-title">Bob</h2>
+        <h3 class="card-title">Manager</h3>
+      </div>
+      <div class="card-body">
+        <ul class="list-items">
+          <li class="list-group-item">ID:${id}</li>
+          <li class="list-group-item">
+            Email: <a href="${email}</a>
+          </li>
+          <li class="list-group-item">Github:${gitHub}</li>
+        </ul>
+      </div>
+    </div>`;
+    }
+    console.log("Creating Cards");
+    fs.appendFile("./output.html", userHtml, function (err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  });
+}
+
+runApplication();
