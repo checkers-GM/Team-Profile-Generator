@@ -68,25 +68,41 @@ function runInquirerEmployee() {
 }
 
 function runInquirerEngineer() {
-  const promptArray = [
+  inquirer.prompt = [
     {
       type: "input",
       message: "Please enter your github",
       name: "github",
     },
-  ];
-  return inquirer.prompt(promptArray);
+  ].then((answers) => {
+    const engineerData = new Engineer(
+      answers.engineerName,
+      answers.engineerId,
+      answers.engineerEmail,
+      answers.engineerGithub
+    );
+    employeeArray.push(engineerData);
+    idArray.push(engineerId);
+  });
 }
 
 function runInquirerIntern() {
-  const promptArray = [
+  inquirer.prompt = [
     {
       type: "input",
       message: "Please enter your school",
       name: "school",
     },
-  ];
-  return inquirer.prompt(promptArray);
+  ].then((answers) => {
+    const internData = new Intern(
+      answers.internName,
+      answers.internId,
+      answers.internEmail,
+      answers.internSchool
+    );
+    employeeArray.push(internData);
+    idArray.push(internId);
+  });
 }
 
 // async function runApplication() {
